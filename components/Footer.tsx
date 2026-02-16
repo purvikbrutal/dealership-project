@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-text-muted text-sm">
-            © {currentYear} CLIENT NAME. All rights reserved.
+              © {currentYear} Fatimuj Zahira. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#" className="text-text-muted hover:text-purple-accent transition-colors text-sm">

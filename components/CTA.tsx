@@ -14,7 +14,7 @@ export default function CTA() {
           viewport={{ once: true }}
           className="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary mb-6 leading-tight"
         >
-          If your dealership is working hard but not growing, the system needs fixing.
+          If You Want Clearer Inventory Decisions
         </motion.h2>
 
         <motion.p
@@ -24,7 +24,7 @@ export default function CTA() {
           viewport={{ once: true }}
           className="text-text-secondary text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed"
         >
-          Let's have a strategic conversation about what's possible for your business.
+          Book a Diagnostic Conversation.
         </motion.p>
 
         <motion.button

@@ -1,102 +1,113 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { Activity, Hourglass, Radar, RefreshCcw, Target, Timer } from 'lucide-react'
 
 const problems = [
   {
-    title: 'Low Lead Conversion',
-    description: 'Converting fewer prospects into buyers despite consistent lead volume',
-    icon: '📉',
+    title: 'Capital Locked in Ageing Inventory',
+    description:
+      'Liquidity compresses, floorplan exposure rises, and capital stays trapped as units exceed optimal holding periods.',
+    Icon: Hourglass,
   },
   {
-    title: 'No Follow-Up Process',
-    description: 'Leads fall through the cracks due to inconsistent follow-up systems',
-    icon: '⏱️',
+    title: 'Margin Sensitivity Blind Spots',
+    description:
+      'Delayed pricing, recon, or market alignment quietly erode gross margins long before it shows in reporting.',
+    Icon: Activity,
   },
   {
-    title: 'Inconsistent Sales Performance',
-    description: 'Sales team results vary wildly with no standardized approach',
-    icon: '📊',
+    title: 'Delayed Intervention Timing',
+    description:
+      'Corrective action often comes after thresholds are crossed—by then, margin and capital efficiency are already hit.',
+    Icon: Timer,
   },
   {
-    title: 'Poor Inventory Positioning',
-    description: 'Right cars in inventory but marketed to wrong audience',
-    icon: '🏷️',
+    title: 'Fragmented Operational Signals',
+    description:
+      'Data exists, but without a unified diagnostic lens, leadership lacks structured prioritization and decisive actions.',
+    Icon: Radar,
   },
   {
-    title: 'Wasted Marketing Spend',
-    description: 'Money spent on ads bringing wrong type of leads or low quality prospects',
-    icon: '💰',
+    title: 'Distorted Rotation Objectives',
+    description:
+      'Ageing stock and misaligned incentives break strategic rotation, restricting purchasing power and tying cash.',
+    Icon: RefreshCcw,
   },
   {
-    title: 'No Data Tracking',
-    description: 'Operating blind without visibility into what actually drives sales',
-    icon: '📈',
+    title: 'Hesitation Under Pressure',
+    description:
+      'In high-capital environments, the cost is in hesitation—not awareness—when intervention logic is unclear.',
+    Icon: Target,
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6 },
-  },
-}
+const trackItems = [...problems, ...problems, ...problems]
 
 export default function Problems() {
-  return (
-    <section className="py-24 px-6 bg-dark-secondary/50">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary mb-4">
-            Why Most Pre-Owned Car Dealerships Struggle to Grow
-          </h2>
-          <p className="text-text-muted max-w-2xl mx-auto text-base md:text-lg">
-            These are the operational gaps that prevent dealerships from reaching their potential
-          </p>
-        </motion.div>
+  const trackRef = useRef<HTMLDivElement | null>(null)
+  const [paused, setPaused] = useState(false)
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+  useEffect(() => {
+    const node = trackRef.current
+    if (!node) return
+
+    const handlePointerDown = (e: PointerEvent) => {
+      const startX = e.clientX
+      const startScroll = node.scrollLeft
+      const onMove = (moveEvent: PointerEvent) => {
+        node.scrollLeft = startScroll - (moveEvent.clientX - startX)
+      }
+      const onUp = () => {
+        window.removeEventListener('pointermove', onMove)
+        window.removeEventListener('pointerup', onUp)
+      }
+      window.addEventListener('pointermove', onMove)
+      window.addEventListener('pointerup', onUp)
+    }
+
+    node.addEventListener('pointerdown', handlePointerDown)
+    return () => node.removeEventListener('pointerdown', handlePointerDown)
+  }, [])
+
+  return (
+    <section className="py-28 px-0 bg-[#050505] text-[#f5f5f5]">
+      <div className="max-w-5xl mx-auto px-6 text-center">
+        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">The Silent Erosion of Value in Luxury Inventory</h2>
+        <p className="max-w-2xl mx-auto text-[#a1a1a1] text-base md:text-lg leading-relaxed mt-4">
+          Pinpoint the capital leaks before they hollow out margin and momentum.
+        </p>
+      </div>
+
+      <div className="relative w-full mt-16" aria-label="Luxury risks carousel">
+        <div
+          ref={trackRef as React.RefObject<HTMLDivElement>}
+          className="overflow-hidden"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
         >
-          {problems.map((problem, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -6 }}
-              className="group glass-morphism p-8 transition-all cursor-pointer"
-            >
-              <span className="text-4xl mb-4 block">{problem.icon}</span>
-              <h3 className="text-xl font-semibold text-text-primary mb-3">
-                {problem.title}
-              </h3>
-              <p className="text-text-muted leading-relaxed">
-                {problem.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
+          <div
+            className={`flex gap-8 w-max items-stretch animate-[carousel-scroll_48s_linear_infinite] ${paused ? '[animation-play-state:paused]' : ''}`}
+          >
+            {trackItems.map((problem, index) => {
+              const Icon = problem.Icon
+              return (
+                <div
+                  key={`${problem.title}-${index}`}
+                  className="group relative min-w-[280px] md:min-w-[320px] max-w-[340px] flex-shrink-0 rounded-2xl border border-white/10 bg-[#0e0e0e] p-7 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 before:absolute before:inset-0 before:rounded-2xl before:bg-white/5 before:opacity-0 hover:before:opacity-100 before:transition"
+                >
+                  <div className="relative flex flex-col gap-3">
+                    <div className="transition-transform duration-300 group-hover:scale-110">
+                      <Icon className="text-white/90" size={28} strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-lg md:text-xl font-medium text-white leading-tight">{problem.title}</h3>
+                    <p className="text-[#a1a1a1] leading-relaxed text-sm md:text-base">{problem.description}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </section>
   )

@@ -1,90 +1,98 @@
 'use client'
 
-import Image from 'next/image'
+import { Bebas_Neue, Inter } from 'next/font/google'
 import { motion } from 'framer-motion'
+
+const bebas = Bebas_Neue({ subsets: ['latin'], weight: '400' })
+const inter = Inter({ subsets: ['latin'], weight: '300' })
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+}
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
+}
 
 export default function Hero() {
   return (
-    <section id="home" className="min-h-screen pt-32 md:pt-40 pb-24 px-6 flex items-center justify-center">
-      <div className="max-w-4xl mx-auto w-full">
-        <div className="flex flex-col items-center text-center">
-          {/* Circular Portrait with Glow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9 }}
-            className="relative mb-12 md:mb-16"
-          >
-            {/* Gradient Glow Background */}
-            <div className="hero-glow" />
-            
-            {/* Circular Image */}
-            <motion.div
-            animate={{ y: [0, -4, 0] }}
-            transition={{ duration: 6, repeat: Infinity }}
-              className="relative w-40 h-40 md:w-56 md:h-56 lg:w-60 lg:h-60 mx-auto"
-            >
-              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-glass-border bg-dark-secondary">
-                {/* Replace with client's professional portrait */}
-                <Image
-                  src="/images/hero.jpg"
-                  alt="Professional Portrait"
-                  fill
-                  className="object-cover"
-                  priority
-                  onError={(e) => {
-                    e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="500" height="500"%3E%3Ccircle cx="250" cy="250" r="250" fill="%23121821"/%3E%3Ctext x="50%" y="50%" font-size="28" fill="%239aa4b2" text-anchor="middle" dominant-baseline="middle" font-family="system-ui"%3EProfile Photo%3C/text%3E%3C/svg%3E'
-                  }}
-                />
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Name */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-semibold text-text-primary mb-6 leading-tight"
-          >
-            CLIENT NAME
-          </motion.h1>
-
-          {/* Tagline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="text-lg md:text-xl text-text-muted mb-12 max-w-2xl leading-relaxed"
-          >
-            Helping pre-owned car dealerships grow revenue by fixing operational gaps and improving conversion systems.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center"
-          >
-            <motion.button
-              className="btn-primary whitespace-nowrap"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Book a Strategy Call
-            </motion.button>
-
-            <motion.button
-              className="btn-secondary whitespace-nowrap"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              See How I Help
-            </motion.button>
-          </motion.div>
-        </div>
+    <section
+      id="hero"
+      data-theme="dark"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
+    >
+      {/* Background video */}
+      <div className="absolute inset-0 w-full h-full z-0 bg-black">
+        <video
+          className="w-full h-full object-cover pointer-events-none"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
       </div>
+
+      {/* Dark cinematic overlay */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/38 via-black/52 to-black/68" />
+
+      {/* Centered content */}
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="relative z-20 max-w-5xl mx-auto px-6 text-center flex flex-col items-center justify-center gap-6"
+      >
+        <div className="hero-title-wrapper">
+          <motion.h1
+            variants={fadeUp}
+            style={{
+              fontFamily: `${bebas.style.fontFamily}, ${inter.style.fontFamily}, sans-serif`,
+            }}
+            className="hero-title text-white/85 text-center text-[clamp(3.8rem,12vw,11rem)]"
+          >
+            ZAHIRA
+          </motion.h1>
+        </div>
+
+        <motion.div
+          variants={fadeUp}
+          className="hero-tagline-wrapper"
+        >
+          <p
+            className={`${inter.className} hero-tagline font-light`}
+          >
+            Decision Intelligence for New and Pre-Owned Luxury Dealerships
+          </p>
+        </motion.div>
+
+        <motion.div
+          variants={fadeUp}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-4"
+        >
+          <motion.a
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            href="#contact"
+            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide transition duration-300 hover:bg-white/90`}
+          >
+            Book a Call
+          </motion.a>
+          <motion.a
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            href="#about"
+            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full border border-white/70 text-white text-sm font-semibold tracking-wide transition duration-300 bg-white/0 hover:bg-white/10`}
+          >
+            About Me
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Luxury Portfolio - Automobile Business Consultant',
-  description: 'Helping pre-owned car dealerships grow revenue and improve conversion systems',
+  title: 'Fatimuj Zahira | Decision Intelligence for Luxury Dealerships',
+  description:
+    'I help dealership leaders see where cash, risk, and margin truly sit—before the damage shows up on the P&L.',
 }
 
 export default function RootLayout({

@@ -1,107 +1,137 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { Activity, Compass, Radar, Scale } from 'lucide-react'
 
-const processSteps = [
+const steps = [
   {
-    number: 1,
-    title: 'Book a Call',
-    description: 'Schedule a 30-minute consultation to discuss your dealership\'s challenges',
+    title: 'Diagnostic Assessment',
+    description:
+      'Examine inventory timing, margin exposure, and capital allocation patterns across new and pre-owned stock.',
+    Icon: Activity,
   },
   {
-    number: 2,
-    title: 'Business Analysis',
-    description: 'Deep dive audit of your operations, sales process, and systems',
+    title: 'Signal Mapping',
+    description: 'Identify early indicators of risk before it impacts cash flow.',
+    Icon: Radar,
   },
   {
-    number: 3,
-    title: 'Strategy Plan',
-    description: 'Custom roadmap identifying gaps and detailing specific improvements',
+    title: 'Decision Framework',
+    description: 'Translate insights into a repeatable intervention logic leadership can act on weekly.',
+    Icon: Compass,
   },
   {
-    number: 4,
-    title: 'Implementation',
-    description: 'Hands-on guidance implementing changes and optimizing processes',
-  },
-  {
-    number: 5,
-    title: 'Performance Tracking',
-    description: 'Ongoing monitoring and optimization to ensure sustained growth',
+    title: 'Strategic Clarity',
+    description: 'Refine decision discipline continuously under real market pressure.',
+    Icon: Scale,
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6 },
-  },
-}
-
 export default function Process() {
-  return (
-    <section className="py-24 px-6 bg-dark-secondary/50">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary mb-4">
-            Our Process
-          </h2>
-          <p className="text-text-muted max-w-2xl mx-auto text-base md:text-lg">
-            A structured approach to identifying and fixing what's holding your dealership back
-          </p>
-        </motion.div>
+  const [visibleSteps, setVisibleSteps] = useState<boolean[]>(Array(steps.length).fill(false))
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([])
 
-        {/* Timeline */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          {processSteps.map((step, index) => (
-            <motion.div key={index} variants={itemVariants} className="relative">
-              {/* Card */}
-              <div className="glass-morphism p-8 rounded-2xl border border-glass-border text-center h-full flex flex-col justify-between">
-                <div className="mb-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white text-black font-semibold mb-4">
-                    {step.number}
+  useEffect(() => {
+    const observers: IntersectionObserver[] = []
+
+    stepRefs.current.forEach((node, index) => {
+      if (!node) return
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              setVisibleSteps(prev => {
+                if (prev[index]) return prev
+                const next = [...prev]
+                next[index] = true
+                return next
+              })
+              observer.unobserve(node)
+            }
+          })
+        },
+        { threshold: 0.35 }
+      )
+
+      observer.observe(node)
+      observers.push(observer)
+    })
+
+    return () => observers.forEach(o => o.disconnect())
+  }, [])
+
+  const filledPercent = (visibleSteps.filter(Boolean).length / steps.length) * 100
+
+  return (
+    <section id="method" className="pt-6 md:pt-8 pb-24 md:pb-28 px-6 bg-[#050505] text-[#f5f5f5]">
+      <div className="max-w-6xl mx-auto text-center">
+        <p className="text-xs uppercase tracking-[0.22em] text-white/50 mb-3">My Method</p>
+        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">How It Works</h2>
+      </div>
+
+      <div className="relative max-w-6xl mx-auto mt-16">
+        {/* Timeline lines */}
+        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/12" aria-hidden />
+        <div
+          className="hidden md:block absolute left-1/2 top-0 w-px bg-white/70 origin-top transition-all duration-700 ease-out"
+          style={{ height: `${filledPercent}%` }}
+          aria-hidden
+        />
+
+        {/* Mobile line */}
+        <div className="md:hidden absolute left-5 top-0 bottom-0 w-px bg-white/12" aria-hidden />
+        <div
+          className="md:hidden absolute left-5 top-0 w-px bg-white/70 origin-top transition-all duration-700 ease-out"
+          style={{ height: `${filledPercent}%` }}
+          aria-hidden
+        />
+
+        <div className="flex flex-col gap-12">
+          {steps.map((step, index) => {
+            const Icon = step.Icon
+            const isLeft = index % 2 === 0
+            const visible = visibleSteps[index]
+
+            return (
+              <div key={step.title} className="relative md:min-h-[140px]">
+                {/* Connector node */}
+                <div
+                  className={`absolute ${isLeft ? 'md:left-1/2 md:-translate-x-1/2' : 'md:left-1/2 md:-translate-x-1/2'} left-5 md:left-1/2 md:-translate-x-1/2 top-3 flex items-center justify-center`}
+                  aria-hidden
+                >
+                  <div className="relative h-4 w-4">
+                    <span
+                      className={`absolute inset-0 rounded-full border border-white/60 bg-[#050505] transition-all duration-500 ${visible ? 'shadow-[0_0_0_6px_rgba(255,255,255,0.07)]' : ''}`}
+                    />
+                    <span
+                      className={`absolute inset-[5px] rounded-full bg-white transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-40'}`}
+                    />
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-text-primary mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-text-muted leading-relaxed">
-                    {step.description}
-                  </p>
+
+                <div
+                  ref={el => {
+                    stepRefs.current[index] = el
+                  }}
+                  className={`relative flex md:flex-row ${isLeft ? 'md:justify-end md:pr-16' : 'md:justify-start md:pl-16'} pl-12 md:pl-0`}
+                >
+                  <div
+                    className={`relative max-w-[420px] w-full rounded-[18px] border border-white/8 bg-[#0e0e0e] p-7 transition-all duration-300 ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} hover:-translate-y-1.5 hover:border-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.35)] ${isLeft ? 'md:mr-auto md:text-right' : 'md:ml-auto md:text-left'}`}
+                  >
+                    <div className="flex items-center gap-3 text-white/60 text-xs tracking-[0.08em] uppercase">
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      <div className="h-px w-8 bg-white/15" />
+                      <Icon className="text-white/80" size={20} strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mt-3">{step.title}</h3>
+                    <p className="text-[#a1a1a1] leading-relaxed mt-3">{step.description}</p>
+                  </div>
                 </div>
               </div>
-
-              {/* Connector Line */}
-              {index < processSteps.length - 1 && (
-                <div className="hidden md:block absolute top-16 left-[calc(100%+8px)] w-[calc(100%-32px)] h-0.5 bg-gradient-to-r from-white to-transparent opacity-20" />
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
+            )
+          })}
+        </div>
       </div>
     </section>
   )

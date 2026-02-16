@@ -1,21 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     element?.scrollIntoView({ behavior: 'smooth' })
@@ -23,66 +11,36 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-dark-bg/80 backdrop-blur-md border-b border-glass-border'
-          : 'bg-transparent'
-      }`}
-      initial={{ y: -100 }}
+      className="navbar-container site-header navbar"
+      initial={{ y: -80 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: 0.45, ease: 'easeOut' }}
     >
-      <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-        {/* Brand */}
-        <Link href="#" className="text-2xl font-semibold text-text-primary tracking-tight">
-          CLIENT NAME
+      <div className="w-full h-full flex items-center justify-between leading-none">
+        <Link href="#" className="nav-logo text-[17px] font-semibold tracking-[-0.01em] whitespace-nowrap leading-none">
+          <span className="font-semibold">Fatimuj </span>
+          <span className="font-bold">Zahira</span>
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-12">
-          <button
-            onClick={() => scrollToSection('home')}
-            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
+        <div className="hidden md:flex items-center gap-10 leading-none">
+          <button onClick={() => scrollToSection('hero')} className="nav-link text-[14px] leading-none">
             Home
           </button>
-          <button
-            onClick={() => scrollToSection('about')}
-            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
+          <button onClick={() => scrollToSection('about')} className="nav-link text-[14px] leading-none">
             About
           </button>
-          <button
-            onClick={() => scrollToSection('services')}
-            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
+          <button onClick={() => scrollToSection('method')} className="nav-link text-[14px] leading-none">
             How I Help
           </button>
-          <button
-            onClick={() => scrollToSection('results')}
-            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
+          <button onClick={() => scrollToSection('results')} className="nav-link text-[14px] leading-none">
             Results
           </button>
-          <button
-            onClick={() => scrollToSection('contact')}
-            className="text-text-secondary hover:text-text-primary transition-colors text-sm"
-          >
+          <button onClick={() => scrollToSection('contact')} className="nav-link text-[14px] leading-none">
             Contact
           </button>
         </div>
 
-        {/* CTA Button */}
-        <motion.button
-          className="hidden md:block btn-primary text-sm"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Book a Call
-        </motion.button>
-
-        {/* Mobile Menu Button */}
-        <button className="md:hidden text-text-primary text-2xl">☰</button>
+        <button className="md:hidden text-2xl text-white">☰</button>
       </div>
     </motion.nav>
   )
