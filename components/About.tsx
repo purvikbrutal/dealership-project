@@ -41,15 +41,10 @@ export default function About() {
 
             <div className="space-y-6 text-white/60 leading-relaxed text-base md:text-lg max-w-xl mt-6">
               <p>
-                I work with luxury dealerships to understand where their money actually moves. I look at inventory flow, margin pressure, and operational decisions to find issues before they show up in the financials.
+                I work alongside luxury automotive retailers to bring precision to where capital is genuinely moving within the business. My attention centers on inventory velocity, margin resilience, and the quality of operational decisions, identifying pressure points long before they surface in the financial accounts. In a high-capital environment, delayed judgement is costly. My role is to equip leadership with the clarity to act decisively and at the right moment.
               </p>
-
               <p>
-                My goal is simple: help leadership make faster and clearer decisions in a high-capital business. Instead of reacting late, you act at the right moment with confidence.
-              </p>
-
-              <p>
-                I identify vehicles that quietly drain profit, highlight early warning signs, and turn complicated operational data into clear actions your team can follow every week.
+                Rather than relying on retrospective reporting, I focus on forward signals that indicate where intervention will protect profit and release capital. I analyze stock aging, capital deployment, and margin compression to uncover vehicles that quietly erode return. Early warning indicators are extracted from operational noise and reframed into clear, prioritized actions that management teams can execute weekly with confidence. The outcome is sharper decision-making, stronger capital efficiency, and sustained margin protection, delivered through disciplined operational insight rather than assumption.
               </p>
             </div>
           </motion.div>
