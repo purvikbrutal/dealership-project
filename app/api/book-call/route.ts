@@ -37,7 +37,7 @@ export async function POST(req: Request) {
     const response = await resend.emails.send({
       from: `Fatimuj Zahira Booking <${fromEnv}>`,
       to: recipients,
-      reply_to: email,
+      replyTo: email,
       subject: "New Strategy Call Booked",
       html,
     })
