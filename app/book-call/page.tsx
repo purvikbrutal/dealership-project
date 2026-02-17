@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 import { useEffect, useMemo, useState, type FormEvent } from "react"
 import StepIndicator from "@/components/book-call/StepIndicator"
 import TimeStep from "@/components/book-call/TimeStep"
