@@ -2,10 +2,34 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node
+      if (navRef.current && !navRef.current.contains(target)) {
+        setMenuOpen(false)
+      }
+    }
+
+    const handleScroll = () => setMenuOpen(false)
+
+    document.addEventListener('mousedown', handleOutsideClick)
+    document.addEventListener('touchstart', handleOutsideClick)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.removeEventListener('touchstart', handleOutsideClick)
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [menuOpen])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -15,6 +39,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
+      ref={navRef}
       className="navbar-container site-header navbar"
       initial={{ y: -80 }}
       animate={{ y: 0 }}
