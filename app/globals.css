@@ -246,11 +246,13 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   display: flex;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10000;
   pointer-events: none;
 }
 
 .site-header {
+  position: relative;
+  z-index: 10000;
   pointer-events: auto;
   width: min(1100px, 92%);
   margin: 0 auto;
@@ -263,7 +265,7 @@ h1, h2, h3, h4, h5, h6 {
     0 10px 40px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
   padding: 14px 28px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .site-header::after {
@@ -304,10 +306,95 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.06em;
 }
 
+.desktop-nav {
+  display: flex;
+}
+
+.mobile-menu-button {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.mobile-menu-button span {
+  width: 22px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  display: block;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 72px;
+  left: 50%;
+  width: min(560px, calc(100% - 32px));
+  transform: translate(-50%, -10px);
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.28s ease;
+  z-index: 9999;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.mobile-menu-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+
+.mobile-menu a {
+  color: #eaeaea;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.mobile-menu a:hover {
+  color: #ffffff;
+}
+
 .hero-title-wrapper {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero-section {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: flex;
+  }
 }
 
 .hero-title {

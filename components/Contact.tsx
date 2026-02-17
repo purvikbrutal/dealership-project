@@ -20,9 +20,9 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log('Form submitted:', formData)
-    setFormData({ name: '', email: '', message: '' })
+    const text = `Name: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`
+    const url = `https://wa.me/917036811026?text=${encodeURIComponent(text)}`
+    window.open(url, '_blank', 'noopener,noreferrer')
   }
 
   return (

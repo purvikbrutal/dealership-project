@@ -1,10 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function CTA() {
   return (
-    <section className="py-24 px-6 relative overflow-hidden">
+    <section id="schedule-call" className="py-24 px-6 relative overflow-hidden">
       <div className="absolute inset-0 cta-spotlight" />
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <motion.h2
@@ -27,17 +28,19 @@ export default function CTA() {
           Book a Diagnostic Conversation.
         </motion.p>
 
-        <motion.button
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           viewport={{ once: true }}
-          className="btn-primary text-lg"
+          className="inline-block"
         >
-          Schedule a Strategy Call
-        </motion.button>
+          <Link href="/book-call" className="btn-primary text-lg">
+            Schedule a Strategy Call
+          </Link>
+        </motion.div>
       </div>
     </section>
   )

@@ -15,7 +15,7 @@ export default function About() {
             viewport={{ once: true }}
             className="order-1 lg:order-2 lg:col-span-5"
           >
-            <div className="relative max-w-[460px] mx-auto aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:scale-[1.02] transition duration-500">
+            <div className="relative max-w-[420px] mx-auto aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:scale-[1.02] transition duration-500">
               <Image
                 src="/images/about.jpg"
                 alt="About Section"

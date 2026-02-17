@@ -2,11 +2,15 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     element?.scrollIntoView({ behavior: 'smooth' })
+    setMenuOpen(false)
   }
 
   return (
@@ -22,7 +26,7 @@ export default function Navbar() {
           <span className="font-bold">Zahira</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-10 leading-none">
+        <div className="desktop-nav items-center gap-10 leading-none">
           <button onClick={() => scrollToSection('hero')} className="nav-link text-[14px] leading-none">
             Home
           </button>
@@ -32,15 +36,51 @@ export default function Navbar() {
           <button onClick={() => scrollToSection('method')} className="nav-link text-[14px] leading-none">
             How I Help
           </button>
-          <button onClick={() => scrollToSection('results')} className="nav-link text-[14px] leading-none">
-            Results
+          <button onClick={() => scrollToSection('potential-impact')} className="nav-link text-[14px] leading-none">
+            Impact
+          </button>
+          <button onClick={() => scrollToSection('schedule-call')} className="nav-link text-[14px] leading-none">
+            Schedule
           </button>
           <button onClick={() => scrollToSection('contact')} className="nav-link text-[14px] leading-none">
             Contact
           </button>
         </div>
 
-        <button className="md:hidden text-2xl text-white">☰</button>
+        <button
+          type="button"
+          className="mobile-menu-button"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setMenuOpen(open => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      <div
+        id="mobile-menu"
+        className={`mobile-menu ${menuOpen ? 'open' : ''}`}
+      >
+        <div className="mobile-menu-inner">
+          <a href="#hero" onClick={() => scrollToSection('hero')}>
+            Home
+          </a>
+          <a href="#about" onClick={() => scrollToSection('about')}>
+            About
+          </a>
+          <a href="#method" onClick={() => scrollToSection('method')}>
+            How I Help
+          </a>
+          <a href="#potential-impact" onClick={() => scrollToSection('potential-impact')}>
+            Results
+          </a>
+          <a href="#contact" onClick={() => scrollToSection('contact')}>
+            Contact
+          </a>
+        </div>
       </div>
     </motion.nav>
   )

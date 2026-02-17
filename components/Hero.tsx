@@ -21,7 +21,7 @@ export default function Hero() {
     <section
       id="hero"
       data-theme="dark"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
+      className="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
     >
       {/* Background video */}
       <div className="absolute inset-0 w-full h-full z-0 bg-black">
@@ -46,7 +46,7 @@ export default function Hero() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-20 max-w-5xl mx-auto px-6 text-center flex flex-col items-center justify-center gap-6"
+        className="relative z-20 max-w-5xl mx-auto px-6 text-center flex flex-col items-center justify-center gap-3"
       >
         <div className="hero-title-wrapper">
           <motion.h1
@@ -54,7 +54,7 @@ export default function Hero() {
             style={{
               fontFamily: `${bebas.style.fontFamily}, ${inter.style.fontFamily}, sans-serif`,
             }}
-            className="hero-title text-white/85 text-center text-[clamp(3.8rem,12vw,11rem)]"
+            className="hero-title text-white/85 text-center text-[clamp(5.8rem,16vw,11rem)]"
           >
             ZAHIRA
           </motion.h1>
@@ -62,23 +62,24 @@ export default function Hero() {
 
         <motion.div
           variants={fadeUp}
-          className="hero-tagline-wrapper"
+          className="hero-tagline-wrapper -mt-1"
         >
           <p
             className={`${inter.className} hero-tagline font-light`}
           >
-            Decision Intelligence for New and Pre-Owned Luxury Dealerships
+            Decision Intelligence for New and{' '}
+            <span className="whitespace-nowrap sm:whitespace-normal">Pre-Owned</span> Luxury Dealerships
           </p>
         </motion.div>
 
         <motion.div
           variants={fadeUp}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-4"
+          className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mt-4"
         >
           <motion.a
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
-            href="#contact"
+            href="#schedule-call"
             className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide transition duration-300 hover:bg-white/90`}
           >
             Book a Call

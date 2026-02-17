@@ -2,8 +2,8 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Problems from '@/components/Problems'
-import Results from '@/components/Results'
 import Process from '@/components/Process'
+import PotentialImpact from '@/components/PotentialImpact'
 import CTA from '@/components/CTA'
 import Contact from '@/components/Contact'
 import Footer from '@/components/Footer'
@@ -17,8 +17,8 @@ export default function Home() {
       <Hero />
       <About />
       <Problems />
-      <Results />
       <Process />
+      <PotentialImpact />
       <CTA />
       <Contact />
       <Footer />
