@@ -160,7 +160,7 @@ export default function BookCallPage() {
       <div className="mt-6 rounded-2xl border border-white/10 bg-[#0f0f0f] p-4 md:p-5">
         <DatePicker
           selected={selectedDate}
-          onChange={date => {
+          onChange={(date: Date | null) => {
             setSelectedDate(date)
             setSelectedTime("")
           }}
