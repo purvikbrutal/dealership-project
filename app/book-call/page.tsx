@@ -60,8 +60,10 @@ export default function BookCallPage() {
   }, [step])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target
-    setFormData(prev => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
+    const target = e.target
+    const { name, value } = target
+    const isCheckbox = target instanceof HTMLInputElement && target.type === "checkbox"
+    setFormData(prev => ({ ...prev, [name]: isCheckbox ? target.checked : value }))
   }
 
   const canContinueStep1 = selectedDate && selectedTime
