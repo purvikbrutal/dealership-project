@@ -15,8 +15,8 @@ type Metric = {
 const metrics: Metric[] = [
   {
     id: 'inventory',
-    from: '20-25%',
-    to: '5-10%',
+    from: '20–25%',
+    to: '5–10%',
     label: 'Aged Inventory Exposure',
     sub: 'Capital trapped in slow-moving units reduced through rotation discipline.',
     detailTitle: 'Inventory Rotation Discipline',
@@ -25,7 +25,7 @@ const metrics: Metric[] = [
   },
   {
     id: 'margin',
-    from: '3-5% monthly',
+    from: '3–5% monthly',
     to: 'Controlled',
     label: 'Margin Leakage',
     sub: 'Early detection allows corrective action weeks sooner.',
@@ -35,8 +35,8 @@ const metrics: Metric[] = [
   },
   {
     id: 'decision',
-    from: '5-7 days',
-    to: '1-2 days',
+    from: '5–7 days',
+    to: '1–2 days',
     label: 'Decision Turnaround',
     sub: 'Leadership receives clear intervention signals faster.',
     detailTitle: 'Decision Speed',
@@ -45,8 +45,8 @@ const metrics: Metric[] = [
   },
   {
     id: 'alignment',
-    from: '65-75%',
-    to: '80-90%',
+    from: '65–75%',
+    to: '80–90%',
     label: 'Units Selling Above Floor Plan',
     sub: 'Improved pricing and positioning alignment.',
     detailTitle: 'Pricing & Positioning Alignment',
@@ -78,7 +78,9 @@ export default function PotentialImpact() {
         <div className="text-center">
           <p className="text-xs uppercase tracking-[0.22em] text-white/50 mb-3">POTENTIAL IMPACT</p>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">Expected Operational Improvement</h2>
-          <p className="text-[#a1a1a1] max-w-2xl mx-auto text-base md:text-lg mt-4">Potential operational Gains</p>
+          <p className="text-[#a1a1a1] max-w-2xl mx-auto text-base md:text-lg mt-4">
+            Typical operational changes dealerships experience after structured decision intelligence is implemented.
+          </p>
         </div>
 
         <div className="performance-section mt-12 grid grid-cols-1 md:[grid-template-columns:1.1fr_0.9fr] items-center gap-9 md:gap-[72px] md:min-h-[650px]">
@@ -93,7 +95,7 @@ export default function PotentialImpact() {
                     key={metric.id}
                     onMouseEnter={() => setActiveId(metric.id)}
                     onClick={() => setActiveId(metric.id)}
-                    className="group relative w-full text-left pl-[26px] pr-2 md:pr-4 pt-1 pb-1 transition-colors duration-300 bg-transparent border-none"
+                    className="group relative w-full text-left pl-[26px] pr-2 md:pr-4 pt-1 pb-1 rounded-xl transition-colors duration-300 bg-white/[0.03] border border-white/8 md:bg-transparent md:border-none"
                   >
                     <div
                       className={`absolute left-0 top-[14px] h-3 w-3 rounded-full border border-white/70 transition-all duration-300 ${
@@ -103,7 +105,7 @@ export default function PotentialImpact() {
                     />
                     <div className={`kpi-number text-[26px] md:text-[32px] lg:text-[40px] font-semibold leading-[1.15] tracking-[-0.02em] transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/70'}`}>
                       <span>{metric.from}</span>
-                      <span className="mx-[10px] opacity-60">-&gt;</span>
+                      <span className="mx-[10px] opacity-60">→</span>
                       <span>{metric.to}</span>
                     </div>
                     <div className="flex flex-col mt-2">
@@ -118,16 +120,12 @@ export default function PotentialImpact() {
             </div>
           </div>
 
-          <div className="case-column hidden md:flex items-center mt-2 md:mt-0">
+          <div className="case-column grid md:flex items-center mt-2 md:mt-0">
             <div
               className="case-card relative rounded-[24px] border border-white/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] md:min-h-[360px] min-h-[360px] transition-opacity duration-250 backdrop-blur-[14px] shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_40px_80px_rgba(0,0,0,0.45)] flex flex-col justify-center px-[32px] py-[32px] md:px-[44px] md:py-[42px]"
               aria-live="polite"
             >
-              <span
-                className="pointer-events-none absolute inset-0 rounded-[24px] opacity-35"
-                style={{ background: 'radial-gradient(600px circle at 20% 10%, rgba(255,255,255,0.12), transparent 60%)' }}
-                aria-hidden
-              />
+              <span className="pointer-events-none absolute inset-0 rounded-[24px] opacity-35" style={{ background: 'radial-gradient(600px circle at 20% 10%, rgba(255,255,255,0.12), transparent 60%)' }} aria-hidden />
               <div className={`${panelVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200 ease-out`}>
                 <p className="text-[12px] uppercase tracking-[0.22em] text-white/55 mb-3">Insight</p>
                 <h3 className="case-title text-[22px] font-semibold text-white mb-[12px] leading-tight">{activeMetric.detailTitle}</h3>

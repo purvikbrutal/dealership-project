@@ -12,7 +12,7 @@ export default function Contact() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }))
@@ -20,14 +20,13 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const text = `Name: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`
-    const url = `https://wa.me/917036811026?text=${encodeURIComponent(text)}`
-    window.open(url, '_blank', 'noopener,noreferrer')
+    // TODO: wire up real submission endpoint
+    console.log('Form submitted:', formData)
   }
 
   return (
-    <section id="contact" className="py-28 px-6 bg-black">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" data-theme="dark" className="py-24 px-6">
+      <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,18 +34,17 @@ export default function Contact() {
           viewport={{ once: true }}
           className="text-center mb-14"
         >
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-text-primary mb-6">
             Get In Touch
           </h2>
-          <p className="text-white/50 max-w-2xl mx-auto text-base md:text-lg">
+          <p className="text-text-muted/80 max-w-2xl mx-auto text-base md:text-lg">
             Ready to discuss how to grow your dealership?
           </p>
         </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.85 }}
           viewport={{ once: true }}
           className="max-w-2xl mx-auto"
         >
@@ -62,7 +60,7 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-white/25 focus:bg-white/[0.05] transition"
+                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/12 text-white placeholder-white/60 focus:outline-none focus:border-white/70 focus:ring-2 focus:ring-white/20 transition"
                 placeholder="Enter your name"
               />
             </div>
