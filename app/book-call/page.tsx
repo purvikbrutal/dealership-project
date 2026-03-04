@@ -1,8 +1,11 @@
-"use client"
+﻿"use client"
 
-import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react"
-import DatePicker from "react-datepicker"
+import { AnimatePresence } from "framer-motion"
+import { useEffect, useMemo, useState, type FormEvent } from "react"
+import ConfirmStep from "../../components/book-call/ConfirmStep"
+import DetailsStep from "../../components/book-call/DetailsStep"
+import StepIndicator from "../../components/book-call/StepIndicator"
+import TimeStep from "../../components/book-call/TimeStep"
 import "react-datepicker/dist/react-datepicker.css"
 
 const steps = [
@@ -46,25 +49,22 @@ export default function BookCallPage() {
     contactMethod: "Call",
     consent: false,
   })
+  const [notes, setNotes] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
 
   const timeSlots = useMemo(() => timeSlotLabels(10, 19, 30), [])
-  const selectedTimeLabel = useMemo(() => timeSlots.find(t => t.value === selectedTime)?.label || "", [selectedTime, timeSlots])
+  const selectedTimeLabel = useMemo(
+    () => timeSlots.find(t => t.value === selectedTime)?.label || "",
+    [selectedTime, timeSlots],
+  )
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" })
     }
   }, [step])
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const target = e.target
-    const { name, value } = target
-    const isCheckbox = target instanceof HTMLInputElement && target.type === "checkbox"
-    setFormData(prev => ({ ...prev, [name]: isCheckbox ? target.checked : value }))
-  }
 
   const canContinueStep1 = selectedDate && selectedTime
   const canContinueStep2 = formData.fullName.trim() && formData.email.trim() && formData.phone.trim()
@@ -113,6 +113,7 @@ export default function BookCallPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
+          notes,
           datetime: combined.toISOString(),
           dateDisplay: selectedDate.toDateString(),
           timeDisplay: combined.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
@@ -131,255 +132,6 @@ export default function BookCallPage() {
       setSubmitting(false)
     }
   }
-
-  const StepIndicator = () => (
-    <div className="flex items-center justify-center gap-3 mb-8 md:mb-10" aria-label="Progress">
-      {steps.map((s, idx) => {
-        const active = idx === step
-        const complete = idx < step
-        return (
-          <div key={s.key} className="flex items-center gap-3">
-            <div
-              className={`h-4 w-4 rounded-full border transition-colors duration-200 ${
-                active ? "bg-white border-white" : complete ? "bg-white/70 border-white/70" : "border-white/30"
-              }`}
-              aria-hidden
-            />
-            {idx < steps.length - 1 && <span className="h-px w-10 md:w-14 bg-white/15" aria-hidden />}
-          </div>
-        )
-      })}
-    </div>
-  )
-
-  const TimeStep = () => (
-    <motion.div key="time" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
-      <h2 className="text-2xl md:text-[26px] font-semibold text-white">Choose a Time</h2>
-      <p className="text-white/65 mt-2">Pick a time that works for you.</p>
-
-      <div className="mt-6 rounded-2xl border border-white/10 bg-[#0f0f0f] p-4 md:p-5">
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date: Date | null) => {
-            setSelectedDate(date)
-            setSelectedTime("")
-          }}
-          inline
-          calendarClassName="!bg-[#0f0f0f] !text-white w-full"
-          dayClassName={() => "!text-white"}
-          minDate={new Date()}
-        />
-      </div>
-
-      {selectedDate && (
-        <div className="mt-6">
-          <p className="text-white/70 text-sm mb-3">Available slots (10:00 AM – 7:00 PM)</p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {timeSlots.map(slot => (
-              <button
-                key={slot.value}
-                type="button"
-                onClick={() => setSelectedTime(slot.value)}
-                className={`rounded-xl px-3 py-2 text-sm transition-all duration-150 border ${
-                  selectedTime === slot.value
-                    ? "bg-white text-black border-white"
-                    : "border-white/15 text-white/80 hover:border-white/40 hover:bg-white/5"
-                }`}
-              >
-                {slot.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {!selectedDate && <p className="text-xs text-white/50 mt-3">Select a date to unlock available times.</p>}
-    </motion.div>
-  )
-
-  const DetailsStep = () => (
-    <motion.div key="details" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
-      <h2 className="text-2xl md:text-[26px] font-semibold text-white">A Few Details First</h2>
-      <p className="text-white/65 mt-2">So I can prepare for your dealership.</p>
-
-      <div className="mt-6 flex flex-col gap-5">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Full Name *</label>
-            <input
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-              placeholder="Your name"
-              required
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Email Address *</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Phone Number *</label>
-            <input
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-              placeholder="+1 555 123 4567"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-[#0c0c0c]">
-          <button
-            type="button"
-            onClick={() => setDetailsOpen(o => !o)}
-            className="w-full flex items-center justify-between px-4 py-3 text-white/80"
-          >
-            <span className="text-[13px] uppercase tracking-[0.12em]">Dealership Info (optional)</span>
-            <span className="text-sm text-white/60">{detailsOpen ? "Hide" : "Add"}</span>
-          </button>
-          <AnimatePresence initial={false}>
-            {detailsOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="px-4 pb-4 pt-1 flex flex-col gap-4"
-              >
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Dealership Name</label>
-                  <input
-                    name="dealershipName"
-                    value={formData.dealershipName}
-                    onChange={handleInputChange}
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                    placeholder="Your dealership"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Location</label>
-                  <input
-                    name="location"
-                    value={formData.location}
-                    onChange={handleInputChange}
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                    placeholder="City, Country"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Inventory Type</label>
-                  <select
-                    name="inventoryType"
-                    value={formData.inventoryType}
-                    onChange={handleInputChange}
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                  >
-                    <option value="">Select</option>
-                    <option value="New">New</option>
-                    <option value="Pre-Owned">Pre-Owned</option>
-                    <option value="Both">Both</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Average monthly sales volume</label>
-                  <select
-                    name="monthlyVolume"
-                    value={formData.monthlyVolume}
-                    onChange={handleInputChange}
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                  >
-                    <option value="">Select</option>
-                    <option value="<20">&lt;20</option>
-                    <option value="20-50">20–50</option>
-                    <option value="50-100">50–100</option>
-                    <option value="100+">100+</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Preferred contact method</label>
-                  <select
-                    name="contactMethod"
-                    value={formData.contactMethod}
-                    onChange={handleInputChange}
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                  >
-                    <option value="Call">Call</option>
-                    <option value="WhatsApp">WhatsApp</option>
-                    <option value="Email">Email</option>
-                  </select>
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Biggest current problem</label>
-                  <textarea
-                    name="biggestProblem"
-                    value={formData.biggestProblem}
-                    onChange={handleInputChange}
-                    rows={3}
-                    placeholder="Inventory aging, low conversion, slow leads, pricing issues, margins, etc."
-                    className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {error && <p className="text-red-400 text-sm" role="alert">{error}</p>}
-      </div>
-    </motion.div>
-  )
-
-  const ConfirmStep = () => (
-    <motion.div key="confirm" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
-      <h2 className="text-2xl md:text-[26px] font-semibold text-white">Confirm Your Strategy Call</h2>
-      <p className="text-white/65 mt-2">Review your booking before confirming.</p>
-
-      <div className="mt-6 rounded-xl border border-white/10 bg-[#0f0f0f] p-5 flex flex-col gap-3">
-        <div className="flex justify-between text-sm text-white/80"><span>Date</span><span>{selectedDate ? selectedDate.toDateString() : "Not set"}</span></div>
-        <div className="flex justify-between text-sm text-white/80"><span>Time</span><span>{selectedTimeLabel || selectedTime || "Not set"}</span></div>
-        <div className="flex justify-between text-sm text-white/80"><span>Name</span><span>{formData.fullName || "—"}</span></div>
-        <div className="flex justify-between text-sm text-white/80"><span>Email</span><span>{formData.email || "—"}</span></div>
-        <div className="flex justify-between text-sm text-white/80"><span>Phone</span><span>{formData.phone || "—"}</span></div>
-      </div>
-
-      <div className="mt-5 flex flex-col">
-        <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Anything you want me to review?</label>
-        <textarea
-          name="biggestProblem"
-          value={formData.biggestProblem}
-          onChange={handleInputChange}
-          rows={4}
-          className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
-          placeholder="Share context or links to review before the call."
-        />
-      </div>
-
-      <label className="mt-4 flex items-start gap-3 text-sm text-white/80">
-        <input
-          type="checkbox"
-          name="consent"
-          checked={formData.consent}
-          onChange={handleInputChange}
-          className="mt-1 h-4 w-4 rounded border-white/40 bg-[#0f0f0f]"
-        />
-        <span>I agree to be contacted regarding this consultation.</span>
-      </label>
-
-      {error && <p className="text-red-400 text-sm mt-3" role="alert">{error}</p>}
-    </motion.div>
-  )
 
   const renderContent = () => {
     if (success) {
@@ -410,8 +162,59 @@ export default function BookCallPage() {
 
     return (
       <>
-        <StepIndicator />
-        <AnimatePresence mode="wait">{step === 0 ? <TimeStep /> : step === 1 ? <DetailsStep /> : <ConfirmStep />}</AnimatePresence>
+        <StepIndicator steps={steps} step={step} />
+        <AnimatePresence mode="wait">
+          {step === 0 ? (
+            <TimeStep
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              timeSlots={timeSlots}
+              onDateChange={(date: Date | null) => {
+                setSelectedDate(date)
+                setSelectedTime("")
+              }}
+              onTimeSelect={value => setSelectedTime(value)}
+            />
+          ) : step === 1 ? (
+            <DetailsStep
+              fullName={formData.fullName}
+              email={formData.email}
+              phone={formData.phone}
+              dealershipName={formData.dealershipName}
+              location={formData.location}
+              inventoryType={formData.inventoryType}
+              monthlyVolume={formData.monthlyVolume}
+              biggestProblem={formData.biggestProblem}
+              contactMethod={formData.contactMethod}
+              detailsOpen={detailsOpen}
+              error={error}
+              onToggleDetails={() => setDetailsOpen(o => !o)}
+              onFullNameChange={value => setFormData(prev => ({ ...prev, fullName: value }))}
+              onEmailChange={value => setFormData(prev => ({ ...prev, email: value }))}
+              onPhoneChange={value => setFormData(prev => ({ ...prev, phone: value }))}
+              onDealershipNameChange={value => setFormData(prev => ({ ...prev, dealershipName: value }))}
+              onLocationChange={value => setFormData(prev => ({ ...prev, location: value }))}
+              onInventoryTypeChange={value => setFormData(prev => ({ ...prev, inventoryType: value }))}
+              onMonthlyVolumeChange={value => setFormData(prev => ({ ...prev, monthlyVolume: value }))}
+              onContactMethodChange={value => setFormData(prev => ({ ...prev, contactMethod: value }))}
+              onBiggestProblemChange={value => setFormData(prev => ({ ...prev, biggestProblem: value }))}
+            />
+          ) : (
+            <ConfirmStep
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              selectedTimeLabel={selectedTimeLabel}
+              fullName={formData.fullName}
+              email={formData.email}
+              phone={formData.phone}
+              notes={notes}
+              consent={formData.consent}
+              error={error}
+              onNotesChange={setNotes}
+              onConsentChange={value => setFormData(prev => ({ ...prev, consent: value }))}
+            />
+          )}
+        </AnimatePresence>
       </>
     )
   }

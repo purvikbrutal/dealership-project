@@ -58,16 +58,19 @@ export default function Navbar() {
           <button onClick={() => scrollToSection('about')} className="nav-link text-[14px] leading-none">
             About
           </button>
+          <Link href="/blog" className="nav-link text-[14px] leading-none">
+            Blogs
+          </Link>
           <button onClick={() => scrollToSection('method')} className="nav-link text-[14px] leading-none">
             How I Help
           </button>
           <button onClick={() => scrollToSection('potential-impact')} className="nav-link text-[14px] leading-none">
             Impact
           </button>
+          <Link href="/intellectual-property" className="nav-link text-[14px] leading-none">
+            Proprietary
+          </Link>
           <button onClick={() => scrollToSection('schedule-call')} className="nav-link text-[14px] leading-none">
-            Schedule
-          </button>
-          <button onClick={() => scrollToSection('contact')} className="nav-link text-[14px] leading-none">
             Contact
           </button>
         </div>
@@ -96,13 +99,19 @@ export default function Navbar() {
           <a href="#about" onClick={() => scrollToSection('about')}>
             About
           </a>
+          <Link href="/blog" onClick={() => setMenuOpen(false)}>
+            Blogs
+          </Link>
           <a href="#method" onClick={() => scrollToSection('method')}>
             How I Help
           </a>
           <a href="#potential-impact" onClick={() => scrollToSection('potential-impact')}>
-            Results
+            Impact
           </a>
-          <a href="#contact" onClick={() => scrollToSection('contact')}>
+          <Link href="/intellectual-property" onClick={() => setMenuOpen(false)}>
+            Proprietary
+          </Link>
+          <a href="#schedule-call" onClick={() => scrollToSection('schedule-call')}>
             Contact
           </a>
         </div>

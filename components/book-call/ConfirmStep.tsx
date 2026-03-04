@@ -10,10 +10,10 @@ type ConfirmStepProps = {
   fullName: string
   email: string
   phone: string
-  biggestProblem: string
+  notes: string
   consent: boolean
   error: string | null
-  onBiggestProblemChange: (value: string) => void
+  onNotesChange: (value: string) => void
   onConsentChange: (value: boolean) => void
 }
 
@@ -24,10 +24,10 @@ const ConfirmStep = ({
   fullName,
   email,
   phone,
-  biggestProblem,
+  notes,
   consent,
   error,
-  onBiggestProblemChange,
+  onNotesChange,
   onConsentChange,
 }: ConfirmStepProps) => (
   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
@@ -45,8 +45,8 @@ const ConfirmStep = ({
     <div className="mt-5 flex flex-col">
       <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Anything you want me to review?</label>
       <textarea
-        value={biggestProblem}
-        onChange={e => onBiggestProblemChange(e.target.value)}
+        value={notes}
+        onChange={e => onNotesChange(e.target.value)}
         rows={4}
         className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
         placeholder="Share context or links to review before the call."
