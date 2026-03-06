@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
+import AccessGate from '@/components/AccessGate'
+import { hasVisitorAccess } from '@/lib/cookies'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -14,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const visitorHasAccess = hasVisitorAccess()
+
   return (
     <html lang="en">
       <head>
@@ -21,6 +25,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="bg-dark-bg text-text-primary">
+        <AccessGate initialHasAccess={visitorHasAccess} />
         {children}
         <AnalyticsTracker />
         <Analytics />
