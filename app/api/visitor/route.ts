@@ -3,7 +3,6 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from '@/lib/cookies'
-import { cookies } from 'next/headers'
 
 const RECIPIENTS = ['zahira.zareon@gmail.com', 'altafdewise@gmail.com']
 
