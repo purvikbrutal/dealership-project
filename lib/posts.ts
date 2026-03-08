@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { getSupabaseClient } from './supabase'
 import { slugify } from './slug'
 import fs from 'fs/promises'
 import path from 'path'
@@ -27,6 +27,8 @@ type PostRow = {
   updated_at: string | null
 }
 
+const supabase = getSupabaseClient()
+
 function mapRow(row: PostRow): Post {
   return {
     id: row.id,
@@ -42,6 +44,7 @@ function mapRow(row: PostRow): Post {
 }
 
 export async function getPublishedPosts() {
+  if (!supabase) return []
   const { data, error } = await supabase
     .from('posts')
     .select('*')
@@ -53,6 +56,7 @@ export async function getPublishedPosts() {
 }
 
 export async function getAllPosts() {
+  if (!supabase) return []
   const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false })
   if (error) throw error
 
@@ -89,6 +93,7 @@ export async function getAllPosts() {
 }
 
 export async function getPostBySlug(slug: string, includeUnpublished = false) {
+  if (!supabase) return null
   let query = supabase.from('posts').select('*').eq('slug', slug)
   if (!includeUnpublished) {
     query = query.eq('published', true)
@@ -99,12 +104,14 @@ export async function getPostBySlug(slug: string, includeUnpublished = false) {
 }
 
 export async function getPostById(id: string) {
+  if (!supabase) return null
   const { data, error } = await supabase.from('posts').select('*').eq('id', id).single()
   if (error) return null
   return mapRow(data as PostRow)
 }
 
 export async function upsertPost(input: Partial<Post> & { title: string; content: string }) {
+  if (!supabase) throw new Error('Supabase is not configured')
   const now = new Date().toISOString()
   const slug = input.slug ? slugify(input.slug) : slugify(input.title)
 
@@ -147,6 +154,7 @@ export async function upsertPost(input: Partial<Post> & { title: string; content
 }
 
 export async function deletePost(id: string) {
+  if (!supabase) throw new Error('Supabase is not configured')
   const { error } = await supabase.from('posts').delete().eq('id', id)
   if (error) throw error
   return true

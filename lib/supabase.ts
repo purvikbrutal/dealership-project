@@ -1,10 +1,18 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+let cachedClient: SupabaseClient | null | undefined
 
-if (!url || !serviceKey) {
-  throw new Error('Supabase environment variables are not set')
+export function getSupabaseClient(): SupabaseClient | null {
+  if (cachedClient !== undefined) return cachedClient
+
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+  if (!url || !serviceKey) {
+    cachedClient = null
+    return null
+  }
+
+  cachedClient = createClient(url, serviceKey)
+  return cachedClient
 }
-
-export const supabase = createClient(url, serviceKey)

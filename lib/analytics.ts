@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { getSupabaseClient } from './supabase'
 
 export type AnalyticsSummary = {
   totalVisitors: number
@@ -8,12 +8,15 @@ export type AnalyticsSummary = {
   recentVisitors: { visitorId: string | null; page: string; timestamp: string; eventType: string; userAgent: string | null }[]
 }
 
+const supabase = getSupabaseClient()
+
 export async function trackEvent(input: {
   page: string
   eventType: string
   visitorId: string | null
   userAgent: string | null
 }) {
+  if (!supabase) return
   const { error } = await supabase.from('analytics_events').insert({
     page: input.page || '/',
     event_type: input.eventType,
@@ -25,6 +28,15 @@ export async function trackEvent(input: {
 }
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
+  if (!supabase) {
+    return {
+      totalVisitors: 0,
+      pageViews: 0,
+      averageDuration: 0,
+      topPages: [],
+      recentVisitors: [],
+    }
+  }
   // Page view count
   const { count: pageViewsRaw = 0 } = await supabase
     .from('analytics_events')
