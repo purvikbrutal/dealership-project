@@ -1,12 +1,14 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 type AccessGateProps = {
   initialHasAccess: boolean
 }
 
 export default function AccessGate({ initialHasAccess }: AccessGateProps) {
+  const pathname = usePathname()
   const [hasAccess, setHasAccess] = useState(initialHasAccess)
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
@@ -16,6 +18,7 @@ export default function AccessGate({ initialHasAccess }: AccessGateProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  if (pathname?.startsWith("/admin")) return null
   if (hasAccess) return null
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
