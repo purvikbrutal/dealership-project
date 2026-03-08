@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import { getPostBySlug } from '@/lib/posts'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import BlogEngagement from '@/components/BlogEngagement'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -35,6 +36,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           <Link href="/blog" className="btn-secondary px-4 py-2 border border-white/20">Back to Blog</Link>
           <span>Last updated {new Date(post.updatedAt).toLocaleDateString()}</span>
         </div>
+
+        <BlogEngagement slug={post.slug} />
       </div>
     </main>
   )

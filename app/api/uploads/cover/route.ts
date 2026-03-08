@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { getSupabaseClient } from '@/lib/supabase'
 
 export async function POST(req: Request) {
+  const supabase = getSupabaseClient()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Storage is not configured' }, { status: 500 })
+  }
+
   const formData = await req.formData().catch(() => null)
   if (!formData) return NextResponse.json({ error: 'Invalid form data' }, { status: 400 })
 

@@ -24,7 +24,7 @@ export async function trackEvent(input: {
     user_agent: input.userAgent,
   })
 
-  if (error) throw error
+  if (error) return
 }
 
 export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
@@ -68,7 +68,8 @@ export async function getAnalyticsSummary(): Promise<AnalyticsSummary> {
     .order('created_at', { ascending: false })
     .limit(20)
 
-  const recentVisitors = (recent as any[]).map((r) => ({
+  const recentList = Array.isArray(recent) ? recent : []
+  const recentVisitors = recentList.map((r) => ({
     visitorId: r.visitor_id || null,
     page: r.page,
     timestamp: r.created_at,

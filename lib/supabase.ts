@@ -1,18 +1,16 @@
-import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
-let cachedClient: SupabaseClient | null | undefined
-
-export function getSupabaseClient(): SupabaseClient | null {
-  if (cachedClient !== undefined) return cachedClient
-
+export function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!url || !serviceKey) {
-    cachedClient = null
+    console.error('[Supabase] Missing env vars:', { url: !!url, serviceKey: !!serviceKey })
     return null
   }
 
-  cachedClient = createClient(url, serviceKey)
-  return cachedClient
+  return createClient(url, serviceKey)
 }
+
+// Backwards compatibility
+export const supabase = getSupabaseClient()
