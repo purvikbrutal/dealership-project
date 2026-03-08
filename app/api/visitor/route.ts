@@ -3,6 +3,7 @@ export const runtime = 'nodejs'
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { VISITOR_COOKIE, VISITOR_COOKIE_MAX_AGE } from '@/lib/cookies'
+import { appendToSheet } from '@/lib/googleSheets'
 
 const RECIPIENTS = ['zahira.zareon@gmail.com', 'altafdewise@gmail.com']
 
@@ -26,6 +27,7 @@ export async function POST(req: Request) {
     const timestamp = new Date().toISOString()
     const visitorIp = req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || ''
 
+    // Send email notification
     const html = `
       <h2>New Website Visitor</h2>
       <p><strong>Name:</strong> ${fullName}</p>
@@ -44,6 +46,17 @@ export async function POST(req: Request) {
       html,
       replyTo: email,
     })
+
+    // Append to Google Sheet (non-blocking, don't fail if sheet write fails)
+    appendToSheet([[
+      timestamp,
+      fullName,
+      email,
+      phone,
+      dealership || '',
+      visitorType || '',
+      visitorIp || '',
+    ]]).catch((err) => console.error('[Visitor] Google Sheet error:', err))
 
     const response = NextResponse.json({ success: true })
     response.cookies.set({
