@@ -5,7 +5,6 @@ export function getSupabaseClient() {
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!url || !serviceKey) {
-    console.error('[Supabase] Missing env vars:', { url: !!url, serviceKey: !!serviceKey })
     return null
   }
 

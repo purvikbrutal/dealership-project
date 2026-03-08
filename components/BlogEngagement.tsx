@@ -12,7 +12,6 @@ export default function BlogEngagement({ slug }: { slug: string }) {
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState<string | null>(null)
-  const [debug, setDebug] = useState<any>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -30,16 +29,11 @@ export default function BlogEngagement({ slug }: { slug: string }) {
         const data = await res.json()
         if (!isMounted) return
         
-        // Debug info
-        console.log('[BlogEngagement] API response:', data)
-        setDebug(data.debug)
-        
         setLikes(typeof data.likes === "number" ? data.likes : 0)
         setComments(Array.isArray(data.comments) ? data.comments : [])
         setEnabled(data.enabled !== false)
       } catch (err: any) {
         if (!isMounted) return
-        console.error('[BlogEngagement] Load error:', err)
         setError(err?.message || "Could not load engagement")
       } finally {
         if (isMounted) setLoading(false)
@@ -59,7 +53,6 @@ export default function BlogEngagement({ slug }: { slug: string }) {
     try {
       const res = await fetch(`/api/blog/${slug}/like`, { method: "POST" })
       const data = await res.json().catch(() => ({}))
-      console.log('[BlogEngagement] Like response:', data)
       if (!res.ok || data?.error) throw new Error(data?.error || "Could not register like")
       
       // Update likes from server response
@@ -71,7 +64,6 @@ export default function BlogEngagement({ slug }: { slug: string }) {
       setLiked(true)
       if (typeof window !== "undefined") localStorage.setItem(`liked-${slug}`, "true")
     } catch (err: any) {
-      console.error('[BlogEngagement] Like error:', err)
       setError(err?.message || "Something went wrong")
     }
   }
@@ -91,12 +83,10 @@ export default function BlogEngagement({ slug }: { slug: string }) {
         body: JSON.stringify({ name, message }),
       })
       const data = await res.json().catch(() => ({}))
-      console.log('[BlogEngagement] Comment response:', data)
       if (!res.ok || !data?.success) throw new Error(data?.error || "Could not post comment")
       setComments((prev) => [data.comment, ...prev].slice(0, 50))
       setMessage("")
     } catch (err: any) {
-      console.error('[BlogEngagement] Comment error:', err)
       setError(err?.message || "Something went wrong")
     } finally {
       setSubmitting(false)
@@ -105,13 +95,6 @@ export default function BlogEngagement({ slug }: { slug: string }) {
 
   return (
     <section className="mt-12 space-y-6">
-      {/* Debug info - remove after fixing */}
-      {debug && (
-        <div className="text-xs text-text-muted bg-white/5 p-2 rounded">
-          Debug: postId={debug.postId}, likes={debug.likesCount}, comments={debug.commentsCount}
-        </div>
-      )}
-      
       <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/4 via-white/2 to-transparent p-5 shadow-[0_10px_40px_rgba(0,0,0,0.35)] space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">

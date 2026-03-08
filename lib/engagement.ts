@@ -11,40 +11,30 @@ export type PostEngagement = {
   likes: number
   comments: PostComment[]
   enabled: boolean
-  debug?: any
 }
 
 export async function getPostEngagement(postId: string): Promise<PostEngagement> {
   const supabase = getSupabaseClient()
   if (!supabase) {
-    console.error('[Engagement] No Supabase client')
-    return { likes: 0, comments: [], enabled: false, debug: 'no_client' }
+    return { likes: 0, comments: [], enabled: false }
   }
 
   try {
     // Get likes count
-    const { data: likesData, error: likesError } = await supabase
+    const { data: likesData } = await supabase
       .from('post_likes')
       .select('id')
       .eq('post_id', postId)
 
-    if (likesError) {
-      console.error('[Engagement] Likes error:', likesError)
-    }
-
     const likesCount = Array.isArray(likesData) ? likesData.length : 0
 
     // Get comments
-    const { data: commentsData, error: commentsError } = await supabase
+    const { data: commentsData } = await supabase
       .from('post_comments')
       .select('*')
       .eq('post_id', postId)
       .order('created_at', { ascending: false })
       .limit(50)
-
-    if (commentsError) {
-      console.error('[Engagement] Comments error:', commentsError)
-    }
 
     const commentsList = Array.isArray(commentsData) ? commentsData : []
 
@@ -57,11 +47,9 @@ export async function getPostEngagement(postId: string): Promise<PostEngagement>
         createdAt: c.created_at,
       })),
       enabled: true,
-      debug: { postId, likesCount, commentsCount: commentsList.length },
     }
   } catch (err: any) {
-    console.error('[Engagement] Exception:', err)
-    return { likes: 0, comments: [], enabled: false, debug: err?.message }
+    return { likes: 0, comments: [], enabled: false }
   }
 }
 
