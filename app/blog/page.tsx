@@ -19,7 +19,7 @@ export default async function BlogPage() {
         {posts.length === 0 ? (
           <p className="text-center text-text-muted">No posts yet. Check back soon.</p>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-8 md:grid-cols-3">
             {posts.map((post) => (
               <article key={post.id} className="glass-morphism p-6 md:p-7 h-full flex flex-col justify-between border border-glass-border/60 bg-surface-elevated/60">
                 <div>
