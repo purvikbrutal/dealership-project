@@ -95,7 +95,7 @@ const DetailsStep = ({
           onClick={onToggleDetails}
           className="w-full flex items-center justify-between px-4 py-3 text-white/80"
         >
-          <span className="text-[13px] uppercase tracking-[0.12em]">Dealership Info (optional)</span>
+          <span className="text-[13px] uppercase tracking-[0.12em]">Dealership Info *</span>
           <span className="text-sm text-white/60">{detailsOpen ? 'Hide' : 'Add'}</span>
         </button>
         <AnimatePresence initial={false}>
@@ -108,12 +108,13 @@ const DetailsStep = ({
               className="px-4 pb-4 pt-1 flex flex-col gap-4"
             >
               <div className="flex flex-col">
-                <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Dealership Name</label>
+                <label className="text-[13px] uppercase tracking-[0.12em] text-white/60">Dealership Name *</label>
                 <input
                   value={dealershipName}
                   onChange={e => onDealershipNameChange(e.target.value)}
                   className="mt-2 w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
                   placeholder="Your dealership"
+                  required
                 />
               </div>
               <div className="flex flex-col">

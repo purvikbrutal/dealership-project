@@ -70,8 +70,8 @@ export default function BlogEngagement({ slug }: { slug: string }) {
 
   const handleComment = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!message.trim()) {
-      setError("Please enter a comment")
+    if (!name.trim() || !message.trim()) {
+      setError("Please enter a name and comment")
       return
     }
     setError(null)
@@ -130,12 +130,13 @@ export default function BlogEngagement({ slug }: { slug: string }) {
 
         <form onSubmit={handleComment} className="space-y-3">
           <div className="flex flex-col gap-2">
-            <label className="text-sm text-text-muted">Name (optional)</label>
+            <label className="text-sm text-text-muted">Name *</label>
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
               placeholder="Your name"
+              required
             />
           </div>
           <div className="flex flex-col gap-2">

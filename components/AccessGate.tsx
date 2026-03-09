@@ -25,8 +25,8 @@ export default function AccessGate({ initialHasAccess }: AccessGateProps) {
     e.preventDefault()
     setError(null)
 
-    if (!fullName.trim() || !email.trim() || !phone.trim()) {
-      setError("Please fill in full name, email, and phone.")
+    if (!fullName.trim() || !email.trim() || !phone.trim() || !dealership.trim()) {
+      setError("Please fill in full name, email, phone, and dealership.")
       return
     }
 
@@ -100,12 +100,13 @@ export default function AccessGate({ initialHasAccess }: AccessGateProps) {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label className="text-sm text-white/70">Dealership Name (optional)</label>
+            <label className="text-sm text-white/70">Dealership Name *</label>
             <input
               value={dealership}
               onChange={e => setDealership(e.target.value)}
               className="w-full rounded-xl bg-[#0f0f0f] border border-white/12 px-4 py-3 text-white focus:outline-none focus:border-white/35"
               placeholder="Your dealership"
+              required
             />
           </div>
 
