@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 export default function About() {
   return (
-    <section id="about" className="py-28 px-6 bg-black">
+    <section id="about" className="blue-section py-28 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-center">
           <motion.div
@@ -15,7 +15,7 @@ export default function About() {
             viewport={{ once: true }}
             className="order-1 lg:order-2 lg:col-span-5"
           >
-            <div className="relative max-w-[420px] mx-auto aspect-[4/5] rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:scale-[1.02] transition duration-500">
+            <div className="blue-panel relative max-w-[420px] mx-auto aspect-[4/5] rounded-2xl overflow-hidden hover:scale-[1.02] transition duration-500">
               <Image
                 src="/images/about.jpg"
                 alt="About Section"

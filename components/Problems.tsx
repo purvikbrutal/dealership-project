@@ -71,7 +71,7 @@ export default function Problems() {
   }, [])
 
   return (
-    <section className="py-28 px-0 bg-[#050505] text-[#f5f5f5]">
+    <section className="blue-section py-28 px-0 text-[#f5f5f5]">
       <div className="max-w-5xl mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-5xl font-semibold tracking-tight">The Silent Erosion of Value in Luxury Inventory</h2>
         <p className="max-w-2xl mx-auto text-[#a1a1a1] text-base md:text-lg leading-relaxed mt-4">
@@ -94,7 +94,7 @@ export default function Problems() {
               return (
                 <div
                   key={`${problem.title}-${index}`}
-                  className="group relative min-w-[280px] md:min-w-[320px] max-w-[340px] flex-shrink-0 rounded-2xl border border-white/10 bg-[#0e0e0e] p-7 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 before:absolute before:inset-0 before:rounded-2xl before:bg-white/5 before:opacity-0 hover:before:opacity-100 before:transition"
+                  className="blue-panel-soft group relative min-w-[280px] md:min-w-[320px] max-w-[340px] flex-shrink-0 rounded-2xl p-7 transition-all duration-300 hover:border-white/20 hover:-translate-y-1 before:absolute before:inset-0 before:rounded-2xl before:bg-[radial-gradient(circle_at_top,rgba(85,145,240,0.16),transparent_62%)] before:opacity-0 hover:before:opacity-100 before:transition"
                 >
                   <div className="relative flex flex-col gap-3">
                     <div className="transition-transform duration-300 group-hover:scale-110">

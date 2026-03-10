@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server'
 import { addComment } from '@/lib/engagement'
 import { getPostBySlug } from '@/lib/posts'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function POST(req: Request, { params }: { params: { slug: string } }) {
   const body = await req.json().catch(() => ({}))
   const name = body?.name || 'Anonymous'
@@ -9,7 +12,7 @@ export async function POST(req: Request, { params }: { params: { slug: string } 
 
   if (!message.trim()) return NextResponse.json({ error: 'Message is required' }, { status: 400 })
 
-  const post = await getPostBySlug(params.slug, true)
+  const post = await getPostBySlug(params.slug)
   if (!post) return NextResponse.json({ error: 'Post not found' }, { status: 404 })
 
   const result = await addComment(post.id, name, message)

@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server'
 import { addLike } from '@/lib/engagement'
 import { getPostBySlug } from '@/lib/posts'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function POST(_: Request, { params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug, true)
+  const post = await getPostBySlug(params.slug)
   if (!post) return NextResponse.json({ error: 'Post not found' }, { status: 404 })
 
   const result = await addLike(post.id)

@@ -5,9 +5,9 @@ import { motion } from 'framer-motion'
 
 export default function CTA() {
   return (
-    <section id="schedule-call" className="py-24 px-6 relative overflow-hidden">
+    <section id="schedule-call" className="blue-section py-24 px-6 relative overflow-hidden">
       <div className="absolute inset-0 cta-spotlight" />
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="blue-panel max-w-4xl mx-auto text-center relative z-10 rounded-[32px] px-6 py-12 md:px-12 md:py-16">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

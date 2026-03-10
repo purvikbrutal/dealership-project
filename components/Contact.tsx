@@ -25,7 +25,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" data-theme="dark" className="py-24 px-6">
+    <section id="contact" data-theme="dark" className="blue-section py-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -48,7 +48,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto"
         >
-          <form onSubmit={handleSubmit} className="space-y-6 text-left">
+          <form onSubmit={handleSubmit} className="blue-panel space-y-6 text-left rounded-[28px] p-6 md:p-8">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-2.5">
                 Your Name
@@ -60,7 +60,7 @@ export default function Contact() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/12 text-white placeholder-white/60 focus:outline-none focus:border-white/70 focus:ring-2 focus:ring-white/20 transition"
+                className="blue-input w-full px-5 py-3.5 rounded-xl text-white placeholder-white/50 focus:outline-none transition"
                 placeholder="Enter your name"
               />
             </div>
@@ -76,7 +76,7 @@ export default function Contact() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-white/25 focus:bg-white/[0.05] transition"
+                className="blue-input w-full px-5 py-4 rounded-xl text-white placeholder-white/30 focus:outline-none transition"
                 placeholder="your@email.com"
               />
             </div>
@@ -92,7 +92,7 @@ export default function Contact() {
                 onChange={handleChange}
                 required
                 rows={5}
-                className="w-full px-5 py-4 rounded-xl bg-white/[0.03] border border-white/10 text-white placeholder-white/30 focus:outline-none focus:border-white/25 focus:bg-white/[0.05] transition resize-none"
+                className="blue-input w-full px-5 py-4 rounded-xl text-white placeholder-white/30 focus:outline-none transition resize-none"
                 placeholder="Tell me about your dealership challenges..."
               />
             </div>
@@ -102,7 +102,7 @@ export default function Contact() {
                 type="submit"
                 whileHover={{ scale: 1.02, y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-7 py-3 rounded-full bg-white text-black font-medium transition hover:bg-white/90"
+                className="px-7 py-3 rounded-full bg-white text-black font-medium transition hover:bg-[#eef4ff]"
               >
                 Send Message
               </motion.button>

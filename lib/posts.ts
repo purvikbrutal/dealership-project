@@ -94,13 +94,22 @@ export async function getAllPosts() {
 
 export async function getPostBySlug(slug: string, includeUnpublished = false) {
   if (!supabase) return null
-  let query = supabase.from('posts').select('*').eq('slug', slug)
+  let query = supabase
+    .from('posts')
+    .select('*')
+    .eq('slug', slug)
+    .order('published', { ascending: false })
+    .order('updated_at', { ascending: false, nullsFirst: false })
+    .order('created_at', { ascending: false })
+
   if (!includeUnpublished) {
     query = query.eq('published', true)
   }
-  const { data, error } = await query.limit(1).single()
-  if (error) return null
-  return mapRow(data as PostRow)
+
+  const { data, error } = await query.limit(1)
+  if (error || !data || data.length === 0) return null
+
+  return mapRow(data[0] as PostRow)
 }
 
 export async function getPostById(id: string) {

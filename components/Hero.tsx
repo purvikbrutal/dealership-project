@@ -21,10 +21,10 @@ export default function Hero() {
     <section
       id="hero"
       data-theme="dark"
-      className="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white"
+      className="hero-section relative min-h-screen flex items-center justify-center overflow-hidden bg-[#040915] text-white"
     >
       {/* Background video */}
-      <div className="absolute inset-0 w-full h-full z-0 bg-black">
+      <div className="absolute inset-0 w-full h-full z-0 bg-[#040915]">
         <video
           className="w-full h-full object-cover pointer-events-none"
           autoPlay
@@ -39,7 +39,8 @@ export default function Hero() {
       </div>
 
       {/* Dark cinematic overlay */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/38 via-black/52 to-black/68" />
+      <div className="absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(4,10,22,0.34),rgba(6,15,31,0.58),rgba(3,8,18,0.82))]" />
+      <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_top,rgba(65,120,214,0.18),transparent_42%)]" />
 
       {/* Centered content */}
       <motion.div
@@ -80,7 +81,7 @@ export default function Hero() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
             href="#schedule-call"
-            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide transition duration-300 hover:bg-white/90`}
+            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full bg-white text-black text-sm font-semibold tracking-wide transition duration-300 hover:bg-[#eef4ff]`}
           >
             Book a Call
           </motion.a>
@@ -88,7 +89,7 @@ export default function Hero() {
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
             href="#about"
-            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full border border-white/70 text-white text-sm font-semibold tracking-wide transition duration-300 bg-white/0 hover:bg-white/10`}
+            className={`${inter.className} px-7 py-3 sm:px-8 sm:py-3.5 rounded-full border border-[#9bc4ff]/65 text-white text-sm font-semibold tracking-wide transition duration-300 bg-[#0a1730]/28 hover:bg-[#11213f]/52`}
           >
             About Me
           </motion.a>

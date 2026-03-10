@@ -6,6 +6,9 @@ export const metadata = {
   title: 'Edit Post',
 }
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export default async function EditPostPage({ params }: { params: { id: string } }) {
   const post = await getPostById(params.id)
   if (!post) return notFound()

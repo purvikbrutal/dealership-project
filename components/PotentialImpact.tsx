@@ -72,7 +72,7 @@ export default function PotentialImpact() {
     <section
       id="potential-impact"
       ref={sectionRef}
-      className="bg-[#050505] text-[#f5f5f5] px-5 md:px-6 py-[80px] md:py-[120px]"
+      className="blue-section text-[#f5f5f5] px-5 md:px-6 py-[80px] md:py-[120px]"
     >
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center">
@@ -95,11 +95,11 @@ export default function PotentialImpact() {
                     key={metric.id}
                     onMouseEnter={() => setActiveId(metric.id)}
                     onClick={() => setActiveId(metric.id)}
-                    className="group relative w-full text-left pl-[26px] pr-2 md:pr-4 pt-1 pb-1 rounded-xl transition-colors duration-300 bg-white/[0.03] border border-white/8 md:bg-transparent md:border-none"
+                    className="group relative w-full text-left pl-[26px] pr-2 md:pr-4 pt-1 pb-1 rounded-xl transition-colors duration-300 bg-[#0d1b31]/55 border border-[#87b2ff]/10 md:bg-transparent md:border-none"
                   >
                     <div
-                      className={`absolute left-0 top-[14px] h-3 w-3 rounded-full border border-white/70 transition-all duration-300 ${
-                        isActive ? 'bg-white shadow-[0_0_0_6px_rgba(255,255,255,0.07)]' : 'bg-[#050505]'
+                      className={`absolute left-0 top-[14px] h-3 w-3 rounded-full border border-[#b3d0ff]/70 transition-all duration-300 ${
+                        isActive ? 'bg-[#eef6ff] shadow-[0_0_0_6px_rgba(112,165,245,0.16)]' : 'bg-[#06111f]'
                       }`}
                       aria-hidden
                     />
@@ -122,10 +122,10 @@ export default function PotentialImpact() {
 
           <div className="case-column grid md:flex items-center mt-2 md:mt-0">
             <div
-              className="case-card relative rounded-[24px] border border-white/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] md:min-h-[360px] min-h-[360px] transition-opacity duration-250 backdrop-blur-[14px] shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset,0_40px_80px_rgba(0,0,0,0.45)] flex flex-col justify-center px-[32px] py-[32px] md:px-[44px] md:py-[42px]"
+              className="blue-panel case-card relative rounded-[24px] md:min-h-[360px] min-h-[360px] transition-opacity duration-250 flex flex-col justify-center px-[32px] py-[32px] md:px-[44px] md:py-[42px]"
               aria-live="polite"
             >
-              <span className="pointer-events-none absolute inset-0 rounded-[24px] opacity-35" style={{ background: 'radial-gradient(600px circle at 20% 10%, rgba(255,255,255,0.12), transparent 60%)' }} aria-hidden />
+              <span className="pointer-events-none absolute inset-0 rounded-[24px] opacity-35" style={{ background: 'radial-gradient(600px circle at 20% 10%, rgba(122, 173, 255, 0.18), transparent 60%)' }} aria-hidden />
               <div className={`${panelVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-200 ease-out`}>
                 <p className="text-[12px] uppercase tracking-[0.22em] text-white/55 mb-3">Insight</p>
                 <h3 className="case-title text-[22px] font-semibold text-white mb-[12px] leading-tight">{activeMetric.detailTitle}</h3>

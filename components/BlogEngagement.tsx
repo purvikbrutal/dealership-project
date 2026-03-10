@@ -12,6 +12,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const encodedSlug = encodeURIComponent(slug)
 
   useEffect(() => {
     let isMounted = true
@@ -21,7 +22,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
 
     const load = async () => {
       try {
-        const res = await fetch(`/api/blog/${slug}/engagement`, { 
+        const res = await fetch(`/api/blog/${encodedSlug}/engagement`, {
           cache: "no-store",
           headers: { 'Cache-Control': 'no-cache' }
         })
@@ -41,7 +42,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
     }
     load()
     return () => { isMounted = false }
-  }, [slug])
+  }, [encodedSlug, slug])
 
   const handleLike = async () => {
     setError(null)
@@ -51,7 +52,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
       return
     }
     try {
-      const res = await fetch(`/api/blog/${slug}/like`, { method: "POST" })
+      const res = await fetch(`/api/blog/${encodedSlug}/like`, { method: "POST" })
       const data = await res.json().catch(() => ({}))
       if (!res.ok || data?.error) throw new Error(data?.error || "Could not register like")
       
@@ -77,7 +78,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
     setError(null)
     setSubmitting(true)
     try {
-      const res = await fetch(`/api/blog/${slug}/comment`, {
+      const res = await fetch(`/api/blog/${encodedSlug}/comment`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, message }),

@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function GET(_: Request, { params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug, true)
+  const post = await getPostBySlug(params.slug)
   if (!post) {
     return NextResponse.json({ error: 'Post not found', slug: params.slug }, { status: 404 })
   }

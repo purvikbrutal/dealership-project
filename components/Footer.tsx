@@ -11,18 +11,18 @@ export default function Footer() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="py-8 px-6 border-t border-glass-border"
+      className="blue-section py-8 px-6 border-t border-[#7aa9ff]/12"
     >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-text-muted text-sm">
-              © {currentYear} Fatimuj Zahira. All rights reserved.
+            &copy; {currentYear} Fatimuj Zahira. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#" className="text-text-muted hover:text-purple-accent transition-colors text-sm">
+            <a href="#" className="text-text-muted hover:text-white transition-colors text-sm">
               Privacy Policy
             </a>
-            <a href="#" className="text-text-muted hover:text-purple-accent transition-colors text-sm">
+            <a href="#" className="text-text-muted hover:text-white transition-colors text-sm">
               Terms of Service
             </a>
           </div>
